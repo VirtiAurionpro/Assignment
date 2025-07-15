@@ -16,6 +16,7 @@ public class CustomerDisplay {
 	List<LineItem> lineItems = new ArrayList<>();
 	public static List<InvoiceObject> invoices = new ArrayList<>();
 	PaymentObject paymentObject;
+	Discount discountObj = new Discount();
 
 	public void start(List<CustomerObject> customerList, String customerID) {
 		List<MenuObject> availableMenus = MenuRepository.menus;
@@ -117,6 +118,11 @@ public class CustomerDisplay {
 				}
 
 				case 2: {
+					if (lineItems.isEmpty()) {
+						System.out.println("\nYour cart is currently empty.");
+						System.out.println(
+								"========================================================================================");
+					}
 					System.out.println("==========================================");
 					System.out.println("             Edit Your Cart");
 					System.out.println("==========================================");
@@ -154,12 +160,18 @@ public class CustomerDisplay {
 				}
 
 				case 3: {
+					if (lineItems.isEmpty()) {
+						System.out.println("\nYour cart is currently empty.");
+						System.out.println(
+								"========================================================================================");
+						break;
+					}
 					String id = new OrderList().generateId();
 					LocalDate date = LocalDate.now();
 					OrderList tempOrder = new OrderList();
 					double orderTotal = tempOrder.calculateTotal(lineItems);
-					OrderList order = new OrderList(id, date, lineItems, orderTotal, customerName);
-					Discount discountObj = new Discount();
+					List<LineItem> lineItemCopy = new ArrayList<>(lineItems);
+					OrderList order = new OrderList(id, date, lineItemCopy, orderTotal, customerName);
 					discountObj.loadDiscounts();
 					double discountAmount = discountObj.calculateDiscountedValue(orderTotal);
 					order.setDiscount(discountAmount);
@@ -169,13 +181,19 @@ public class CustomerDisplay {
 					break;
 				}
 				case 4: {
+					if (lineItems.isEmpty()) {
+						System.out.println("\nYour cart is currently empty.");
+						System.out.println(
+								"========================================================================================");
+						break;
+					}
 					if (!orderLoaded) {
 						String id = new OrderList().generateId();
 						LocalDate date = LocalDate.now();
 						OrderList tempOrder = new OrderList();
 						double orderTotal = tempOrder.calculateTotal(lineItems);
-						OrderList order = new OrderList(id, date, lineItems, orderTotal, customerName);
-						Discount discountObj = new Discount();
+						List<LineItem> lineItemCopy = new ArrayList<>(lineItems);
+						OrderList order = new OrderList(id, date, lineItemCopy, orderTotal, customerName);
 						discountObj.loadDiscounts();
 						double discountAmount = discountObj.calculateDiscountedValue(orderTotal);
 						order.setDiscount(discountAmount);

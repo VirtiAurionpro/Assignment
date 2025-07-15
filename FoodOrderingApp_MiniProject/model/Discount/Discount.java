@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class Discount {
-	TreeMap<Double, Double> treeMap = new TreeMap<>(Comparator.reverseOrder());
+	public static TreeMap<Double, Double> treeMap = new TreeMap<>(Comparator.reverseOrder());
 
 	public void loadDiscounts() {
 		Discountabove2000 D1 = new Discountabove2000();

@@ -39,8 +39,11 @@ public class FoodOperations {
 			System.out.print("Enter Ingredients     : ");
 			String ingredients = scanner.nextLine();
 
+			System.out.println("Enter label(Veg/Non-Veg) :");
+			String label=scanner.next();
+			
 			String foodID = generateID();
-			FoodObject food = new FoodObject(foodID, foodType, foodName, price, description, ingredients);
+			FoodObject food = new FoodObject(foodID, foodType, foodName, price, description, ingredients,label);
 			foods.add(food);
 			System.out.println(
 					"=============================================================================================================");

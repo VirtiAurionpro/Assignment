@@ -5,7 +5,7 @@ public class InvoiceObject {
 	private OrderList order;
 	private CustomerObject cutomer;
 	private PaymentObject paymentObject;
-	private int counter = 0;
+	private static int counter = 0;
 
 	public String getInvoiceID() {
 		return invoiceID;
@@ -63,7 +63,7 @@ public class InvoiceObject {
 	    sb.append("===================================================\n");
 	    sb.append("Invoice ID     : ").append(invoiceID).append("\n");
 	    sb.append("Customer Name  : ").append(cutomer.getName()).append("\n");
-	    sb.append("Address        : ").append(cutomer.getAddress()).append("\n"); // if available
+	    sb.append("Address        : ").append(cutomer.getAddress()).append("\n"); 
 	    sb.append("Payment Mode   : ").append(paymentObject.getPaymentMode()).append("\n");
 	    sb.append("Payment Status : ").append(paymentObject.getPaymentStatus()).append("\n");
 	    sb.append("Bill Amount     : ₹").append(paymentObject.getPaymentAmount()).append("\n");

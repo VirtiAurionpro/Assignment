@@ -34,7 +34,7 @@ public class CustomerRegister implements IRegister {
 		String CustomerPassword = validatePassword(scanner);
 		String CustomerID = generateID();
 		CustomerList.add(
-				new CustomerObject(CustomerID, name, email, address, phoneNumber, CustomerUsername, CustomerPassword));
+				new CustomerObject(CustomerID, name, address, email, phoneNumber, CustomerUsername, CustomerPassword));
 		System.out.println("\n Your customer account has been created successfully!");
 		System.out.println("----------------------------------------");
 		System.out.println("Customer ID    : " + CustomerID);
@@ -48,10 +48,10 @@ public class CustomerRegister implements IRegister {
 	}
 
 	private String validateEmail(Scanner scanner) {
-		String email;
 		while (true) {
 			System.out.println("--------------------------------------------------");
-	        System.out.print("Please enter your email ID: ");			email = scanner.next();
+			System.out.print("Please enter your email ID: ");
+			String email = scanner.next();
 			String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
 			Pattern p = Pattern.compile(emailRegex);
 			if (email != null && p.matcher(email).matches()) {
@@ -65,12 +65,13 @@ public class CustomerRegister implements IRegister {
 		long phoneNumber;
 		while (true) {
 			System.out.println("--------------------------------------------------");
-	        System.out.print("Enter your 10-digit phone number: ");			phoneNumber = scanner.nextLong();
+			System.out.print("Enter your 10-digit phone number: ");
+			phoneNumber = scanner.nextLong();
 			String phoneStr = String.valueOf(phoneNumber);
 			System.out.println();
 			if (phoneStr.length() != 10 || phoneStr.startsWith("0")) {
-	            System.out.println("Invalid phone number. It must be 10 digits and cannot start with 0.");	
-	            continue;
+				System.out.println("Invalid phone number. It must be 10 digits and cannot start with 0.");
+				continue;
 			}
 			return phoneNumber;
 		}

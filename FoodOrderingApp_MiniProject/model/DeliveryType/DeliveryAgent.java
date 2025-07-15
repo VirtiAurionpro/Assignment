@@ -59,8 +59,6 @@ public class DeliveryAgent {
 		System.out.print("Enter your choice (1-4): ");
 
 		int choice = scanner.nextInt();
-//		if (choice == 5)
-//			return null;
 		switch (choice) {
 		case 1:
 			return "Zomato";

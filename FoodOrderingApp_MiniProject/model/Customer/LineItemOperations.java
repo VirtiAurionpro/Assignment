@@ -6,6 +6,7 @@ import java.util.Scanner;
 import com.aurionpro.model.Admin.FoodObject;
 import com.aurionpro.model.Admin.MenuObject;
 import com.aurionpro.model.Exceptions.FoodNotFound;
+import com.aurionpro.model.Exceptions.InvalidChoice;
 import com.aurionpro.model.Exceptions.MenuNotFound;
 
 public class LineItemOperations {
@@ -23,13 +24,15 @@ public class LineItemOperations {
 		String menuID = scanner.next();
 		boolean menuFound = false;
 		MenuObject selectedMenu = null;
+		String selectedType = "";
+		String selectedLabel = "";
 
 		for (MenuObject availableMenu : availableMenus) {
-		    if (availableMenu.getmenuID().equalsIgnoreCase(menuID)) {
-		        menuFound = true;
-		        selectedMenu = availableMenu;
-		        break;
-		    }
+			if (availableMenu.getmenuID().equalsIgnoreCase(menuID)) {
+				menuFound = true;
+				selectedMenu = availableMenu;
+				break;
+			}
 		}
 
 		if (!menuFound) {
@@ -39,42 +42,72 @@ public class LineItemOperations {
 
 		System.out.println("\nMenu Selected: " + selectedMenu.getmenuType());
 		System.out.println("\nDescription   : " + selectedMenu.getDescription());
-		String selectedType = "";
+		System.out.println("What kind of food would you prefer?");
+		System.out.println("1. Vegetarian\n2. Non-Vegetarian");
 		System.out.println("\nWhat would you like to order?");
-		System.out.println("1. Starters\n2. Main Course\n3. Dessert\n4. Exit");
+		while (true) {
+			try {
+				int ch = scanner.nextInt();
+				switch (ch) {
+				case 1:
+					selectedLabel = "Veg";
+					break;
+				case 2:
+					selectedLabel = "Non-Veg";
+					break;
+//		        case 3: selectedLabel = "Both"; break;
+				default:
+					throw new InvalidChoice();
+				}
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+			break;
+		}
+		System.out.println("1. Starters\n2. Main Course\n3. Dessert");
 
 		while (true) {
-		    int ch = scanner.nextInt();
-		    switch (ch) {
-		        case 1: selectedType = "Starter"; break;
-		        case 2: selectedType = "Main Course"; break;
-		        case 3: selectedType = "Dessert"; break;
-		        case 4: return lineItems;
-		        default:
-		            System.out.println("Invalid choice. Please try again.");
-		            continue;
-		    }
-		    break;
+			int ch = scanner.nextInt();
+			switch (ch) {
+			case 1:
+				selectedType = "Starters";
+				break;
+			case 2:
+				selectedType = "Main Course";
+				break;
+			case 3:
+				selectedType = "Dessert";
+				break;
+//			case 4:
+//				return lineItems;
+			default:
+				System.out.println("Invalid choice. Please try again.");
+				continue;
+			}
+			break;
 		}
 
 		System.out.println("\nShowing " + selectedType + "s from the menu:");
-		System.out.println("=========================================================================================================");
+		System.out.println(
+				"=========================================================================================================");
 		System.out.printf("| %-10s | %-20s | %-10s | %-30s |\n", "Food ID", "Name", "Price", "Ingredients");
-		System.out.println("=========================================================================================================");
+		System.out.println(
+				"=========================================================================================================");
 
 		boolean itemsDisplayed = false;
 		for (FoodObject food : selectedMenu.getFood()) {
-		    if (food.getFoodType().equalsIgnoreCase(selectedType)) {
-		        System.out.printf("| %-10s | %-20s | ₹%-9.2f | %-30s |\n",
-		            food.getfoodID(), food.getFoodName(), food.getPrice(), food.getIngredients());
-		        System.out.println("-----------------------------------------------------------------------------------------");
-		        itemsDisplayed = true;
-		    }
+			if (food.getFoodType().equalsIgnoreCase(selectedType) && food.getlabel().equalsIgnoreCase(selectedLabel)) {
+				System.out.printf("| %-10s | %-20s | ₹%-9.2f | %-30s |\n", food.getfoodID(), food.getFoodName(),
+						food.getPrice(), food.getIngredients());
+				System.out.println(
+						"-----------------------------------------------------------------------------------------");
+				itemsDisplayed = true;
+			}
 		}
 
 		if (!itemsDisplayed) {
-		    System.out.println("No " + selectedType + " items found in this menu.");
-		    return lineItems;
+			System.out.println("No " + selectedType + " items found in this menu.");
+			return lineItems;
 		}
 
 		System.out.print("\nEnter the Food ID of the item you'd like to order: ");
@@ -86,16 +119,15 @@ public class LineItemOperations {
 
 		boolean itemAdded = false;
 		for (FoodObject food : selectedMenu.getFood()) {
-		    if (food.getfoodID().equalsIgnoreCase(foodID) &&
-		        food.getFoodType().equalsIgnoreCase(selectedType)) {
-		        lineItems.add(new LineItem(LineItemId, foodID, food.getFoodName(), units, food.getPrice(),
-		                units * food.getPrice()));
-		        itemAdded = true;
-		        break;
-		    }
+			if (food.getfoodID().equalsIgnoreCase(foodID) && food.getlabel().equalsIgnoreCase(selectedLabel)) {
+				lineItems.add(new LineItem(LineItemId, foodID, food.getFoodName(), units, food.getPrice(),
+						units * food.getPrice()));
+				itemAdded = true;
+				break;
+			}
 		}
 
-		if(!itemAdded)
+		if (!itemAdded)
 			throw new FoodNotFound(foodID);
 		System.out.println("\nItem added to cart successfully!");
 		return lineItems;
@@ -123,10 +155,10 @@ public class LineItemOperations {
 				return lineItems;
 			}
 		}
-		if (!updated) 
+		if (!updated)
 			throw new FoodNotFound(foodID);
 //			System.out.println("\nNo item found with Food ID '" + foodID + "'. Please check and try again.");
-			
+
 		System.out.println("===================================================");
 		return lineItems;
 	}
@@ -146,7 +178,7 @@ public class LineItemOperations {
 //		} else {
 //			System.out.println("\nNo item found with Food ID '" + foodID + "'. Please check and try again.");
 //		}
-		if(!removed)
+		if (!removed)
 			throw new FoodNotFound(foodID);
 		System.out.println("\n Item with Food ID '" + foodID + "' removed successfully from your cart.");
 		System.out.println("===================================================");

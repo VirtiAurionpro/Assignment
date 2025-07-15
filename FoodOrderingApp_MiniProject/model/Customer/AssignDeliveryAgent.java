@@ -32,7 +32,7 @@ public class AssignDeliveryAgent {
 				agent.setStatus("Engaged");
 				System.out.println("Thank you for using our services.");
 				System.out.println("Your order will be delivered shortly");
-				deliveryInvoiceMap.put(agent.getAgentName(), invoice.getInvoiceID());
+				deliveryInvoiceMap.put(agent.getAgentID(), invoice.getInvoiceID());
 				break;
 			}
 	}

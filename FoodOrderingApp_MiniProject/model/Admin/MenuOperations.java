@@ -2,8 +2,12 @@ package com.aurionpro.model.Admin;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeMap;
 
+import com.aurionpro.model.Customer.CustomerDisplay;
+import com.aurionpro.model.Customer.InvoiceObject;
 import com.aurionpro.model.Exceptions.AlreadyExists;
 import com.aurionpro.model.Exceptions.InvalidChoice;
 import com.aurionpro.model.Exceptions.MenuNotFound;
@@ -169,4 +173,45 @@ public class MenuOperations {
 			throw new MenuNotFound(menuID);
 		System.out.println("\nMenu with ID '" + menuID + "' was successfully removed.");
 	}
+
+	public void viewOrders() {
+		boolean history = false;
+		List<InvoiceObject> invoices = CustomerDisplay.invoices;
+		for (InvoiceObject invoice : invoices) {
+			System.out.println(invoice);
+			history = true;
+		}
+		if (!history)
+			System.out.println("No orders received yet.");
+	}
+
+	public void viewDiscounts(TreeMap<Double, Double> treeMap) {
+	    System.out.println("\n===================================");
+	    System.out.println("         Available Discounts");
+	    System.out.println("===================================");
+	    System.out.printf("%-15s%-15s%n", "Base Amount", "Discount Rate (%)");
+	    System.out.println("-----------------------------------");
+
+	    for (Map.Entry<Double, Double> entry : treeMap.entrySet()) {
+	        System.out.printf("%-15.2f%-15.2f%n", entry.getKey(), entry.getValue());
+	    }
+
+	    System.out.println("===================================\n");
+	}
+
+	public void addDiscounts(Scanner scanner, TreeMap<Double, Double> treeMap) {
+	    System.out.println("\n===================================");
+	    System.out.println("         Add New Discount");
+	    System.out.println("===================================");
+
+	    System.out.print("Enter base amount: ");
+	    double amount = scanner.nextDouble();
+
+	    System.out.print("Enter discount rate (%): ");
+	    double rate = scanner.nextDouble();
+
+	    treeMap.put(amount, rate);
+	    System.out.println("\nDiscount added successfully for ₹" + amount + " with rate " + rate + "%.\n");
+	}
+
 }

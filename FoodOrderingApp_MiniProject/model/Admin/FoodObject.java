@@ -7,6 +7,7 @@ public class FoodObject {
 	private double price;
 	private String description;
 	private String ingredients;
+	private String label;
 
 	public String getFoodType() {
 		return foodType;
@@ -61,22 +62,32 @@ public class FoodObject {
 	}
 
 	public FoodObject(String foodID, String foodType, String foodName, double price, String description,
-			String ingredients) {
+			String ingredients, String label) {
 		super();
 		this.foodID = foodID;
 		this.foodType = foodType;
 		this.foodName = foodName;
+		this.label = label;
 		this.price = price;
 		this.description = description;
 		this.ingredients = ingredients;
 	}
+
 	@Override
 	public String toString() {
-	    StringBuilder sb = new StringBuilder();
-	    sb.append(String.format("| %-10s | %-15s | %-20s | ₹%-9.2f | %-30s |\n",
-	        foodID, foodType, foodName, price, ingredients));
-	    sb.append("----------------------------------------------------------------------------------------------------------------------");
-	    return sb.toString();
+		StringBuilder sb = new StringBuilder();
+		sb.append(String.format("| %-10s | %-15s | %-20s | ₹%-9.2f | %-30s |\n", foodID, foodType, foodName, price,
+				ingredients));
+		sb.append(
+				"----------------------------------------------------------------------------------------------------------------------");
+		return sb.toString();
+	}
+
+	public String getlabel() {
+		return label;
+	}
+
+	public void setlabel(String vegLabel) {
+		this.label = vegLabel;
 	}
 }
-	

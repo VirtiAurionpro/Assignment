@@ -18,7 +18,7 @@ public class AgentDisplay {
 		for (DeliveryAgentObject agent : agents) {
 			if (agent.getAgentID().equals(agentID) && agent.getStatus().equals("Engaged")) {
 				List<InvoiceObject> invoices = CustomerDisplay.invoices;
-				String invoiceID = deliveryInvoiceMap.get(agent.getAgentName());
+				String invoiceID = deliveryInvoiceMap.get(agentID);
 				InvoiceObject invoice = null;
 				for (InvoiceObject invoiceObject : invoices) {
 					if (invoiceObject.getInvoiceID().equals(invoiceID)) {
@@ -51,6 +51,7 @@ public class AgentDisplay {
 			return;
 		}
 		System.out.println("Continuing session...");
+		start(agentID,agents);
 	}
 
 }

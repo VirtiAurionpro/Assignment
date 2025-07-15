@@ -2,8 +2,10 @@ package com.aurionpro.model.Admin;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 import com.aurionpro.model.MenuRepository;
+import com.aurionpro.model.Discount.Discount;
 import com.aurionpro.model.Exceptions.InvalidChoice;
 
 public class AdminDisplay {
@@ -14,6 +16,9 @@ public class AdminDisplay {
 		availableMenus = menuObject.addItems();
 		MenuOperations newMenu = new MenuOperations();
 		DeliveryAgentOperations newDeliveryAgent = new DeliveryAgentOperations();
+		Discount discountObj = new Discount();
+		discountObj.loadDiscounts();
+		TreeMap<Double, Double> treeMap = Discount.treeMap;
 
 		System.out.println("==============================================");
 		System.out.println("Welcome, " + adminID + "!");
@@ -43,9 +48,12 @@ public class AdminDisplay {
 					System.out.println("1. Create a Menu");
 					System.out.println("2. View Menu");
 					System.out.println("3. Edit Menu");
-					System.out.println("4. Remove Item");
-					System.out.println("5. Exit");
-					System.out.print("Enter your choice (1-5): ");
+					System.out.println("4. Remove Menu");
+					System.out.println("5. View Discounts");
+					System.out.println("6. Add Discounts");
+					System.out.println("7. View Order History");
+					System.out.println("8. Exit");
+					System.out.print("Enter your choice (1-6): ");
 					try {
 						int choice = scanner.nextInt();
 						scanner.nextLine();
@@ -63,6 +71,15 @@ public class AdminDisplay {
 							newMenu.removeItems(scanner, availableMenus);
 							break;
 						case 5:
+							newMenu.viewDiscounts(treeMap);
+							break;
+						case 6:
+							newMenu.addDiscounts(scanner, treeMap);
+							break;
+						case 7:
+							newMenu.viewOrders();
+							break;
+						case 8:
 							return;
 						default:
 							throw new InvalidChoice();

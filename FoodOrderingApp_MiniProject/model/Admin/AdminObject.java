@@ -4,7 +4,6 @@ public class AdminObject {
 	private String name;
 	private String adminUsername;
 	private String adminPassword;
-	private int age;
 	private String AdminID;
 
 	public String getName() {
@@ -31,14 +30,6 @@ public class AdminObject {
 		this.adminPassword = password;
 	}
 
-	public int getAge() {
-		return age;
-	}
-
-	public void setAge(int age) {
-		this.age = age;
-	}
-
 	public String getAdminID() {
 		return AdminID;
 	}
@@ -47,15 +38,13 @@ public class AdminObject {
 		AdminID = adminID;
 	}
 
-	public AdminObject(String name, int age, String adminID, String adminUsername, String adminPassword) {
+	public AdminObject(String adminID,String name, String adminUsername, String adminPassword) {
 		super();
 		this.name = name;
 		this.adminUsername = adminUsername;
 		this.adminPassword = adminPassword;
-		this.age = age;
 		AdminID = adminID;
 	}
-
 	public AdminObject() {
 		super();
 	}

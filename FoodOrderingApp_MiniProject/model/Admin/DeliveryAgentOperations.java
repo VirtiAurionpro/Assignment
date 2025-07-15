@@ -9,6 +9,7 @@ import com.aurionpro.model.IDelivery;
 import com.aurionpro.model.DeliveryType.DeliveryAgentObject;
 import com.aurionpro.model.DeliveryType.DeliveryTypeFactory;
 import com.aurionpro.model.Exceptions.AgentNotFound;
+import com.aurionpro.model.Exceptions.InvalidChoice;
 
 public class DeliveryAgentOperations {
 
@@ -55,21 +56,24 @@ public class DeliveryAgentOperations {
 		System.out.println("4. Blinkit");
 		System.out.println("5. Exit");
 		System.out.print("Enter your choice (1-5): ");
-
-		int choice = scanner.nextInt();
-		if (choice == 5)
-			return null;
-		switch (choice) {
-		case 1:
-			return "Zomato";
-		case 2:
-			return "Swiggy";
-		case 3:
-			return "Zepto";
-		case 4:
-			return "Blinkit";
-		case 5:
-			return null;
+		try {
+			int choice = scanner.nextInt();
+			switch (choice) {
+			case 1:
+				return "Zomato";
+			case 2:
+				return "Swiggy";
+			case 3:
+				return "Zepto";
+			case 4:
+				return "Blinkit";
+			case 5:
+				return null;
+			default:
+				throw new InvalidChoice();
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 		return null;
 	}
@@ -120,7 +124,7 @@ public class DeliveryAgentOperations {
 	}
 
 	public void editAgent(Scanner scanner) {
-		boolean found=false;
+		boolean found = false;
 		System.out.println("=======================================");
 		System.out.println("        Update Delivery Agent");
 		System.out.println("=======================================");
@@ -134,7 +138,7 @@ public class DeliveryAgentOperations {
 		System.out.println("Enter Agent ID");
 		String id = scanner.next();
 		for (DeliveryAgentObject agent : agents) {
-			if(agent.getAgentID().equalsIgnoreCase(id)) {
+			if (agent.getAgentID().equalsIgnoreCase(id)) {
 				System.out.println("Enter Agent Name");
 				scanner.nextLine();
 				String name = scanner.nextLine();
@@ -142,11 +146,11 @@ public class DeliveryAgentOperations {
 				System.out.println("Enter Agent Phone Number ");
 				long phoneNo = scanner.nextLong();
 				agent.setAgentPhoneNumber(phoneNo);
-				found=true;
+				found = true;
 				break;
 			}
 		}
-		if(!found)
+		if (!found)
 			throw new AgentNotFound(id);
 		System.out.println("Agent Details Edited Successfully");
 	}
