@@ -11,7 +11,6 @@ public class AdminLogin {
 			throw new AccountNotFound(adminID);
 		}
 		if(admin.getadminPassword()==null) {
-			System.out.println(admin.getadminPassword());
 			admin=new AdminFirstLogin().start(admin,adminID);
 			return admin;
 		}

@@ -57,9 +57,16 @@ public class MenuOperations {
 	}
 
 	public void displayMenu(Scanner scanner, List<MenuObject> menus) {
+		
 		System.out.println("--------------------------------------------------");
 		System.out.println("                  View Menu");
 		System.out.println("--------------------------------------------------");
+		System.out.println("Here are all the available menus:");
+		for (MenuObject menu : menus) {
+			System.out.println("\nMenu: " + menu.getmenuType());
+			System.out.println("\nMenu ID: " + menu.getmenuID());
+			System.out.println("===========================================");
+		}
 		System.out.print("Enter the menu ID you wish to view: ");
 		String newmenuID = scanner.next();
 		int flag = 0;
@@ -72,14 +79,18 @@ public class MenuOperations {
 			}
 		}
 		if (flag == 0) {
-//			System.out.println("\nMenu type '" + newmenuType + "' does not exist.");
-//			System.out.println("Please check the spelling or try another type.");
 			throw new MenuNotFound(newmenuID);
 		}
 		scanner.nextLine();
 	}
 
 	public void editMenu(Scanner scanner, List<MenuObject> menus) {
+		System.out.println("Here are all the available menus:");
+		for (MenuObject menu : menus) {
+			System.out.println("\nMenu: " + menu.getmenuType());
+			System.out.println("\nMenu ID: " + menu.getmenuID());
+			System.out.println("===========================================");
+		}
 		while (true) {
 			System.out.println("=======================================");
 			System.out.println("         Edit Menu Parameters");

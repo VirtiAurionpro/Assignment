@@ -8,6 +8,7 @@ import java.util.Scanner;
 import com.aurionpro.model.MenuRepository;
 import com.aurionpro.model.Admin.MenuObject;
 import com.aurionpro.model.Discount.Discount;
+import com.aurionpro.model.Exceptions.InvalidChoice;
 import com.aurionpro.model.Payment.Payment;
 
 public class CustomerDisplay {
@@ -17,6 +18,7 @@ public class CustomerDisplay {
 	public static List<InvoiceObject> invoices = new ArrayList<>();
 	PaymentObject paymentObject;
 	Discount discountObj = new Discount();
+	String selectedLabel = "";
 
 	public void start(List<CustomerObject> customerList, String customerID) {
 		List<MenuObject> availableMenus = MenuRepository.menus;
@@ -43,13 +45,26 @@ public class CustomerDisplay {
 			System.out.println("Description: " + availableMenu.getDescription());
 			System.out.println(
 					"=========================================================================================================");
-//		    System.out.printf("| %-10s | %-15s | %-20s | %-10s | %-30s |\n",
-//		        "Food ID", "Food Type", "Name", "Price", "Ingredients");
-//		    System.out.println("=========================================================================================================");
-//		    for (FoodObject availableFood : availableMenu.getFood()) {
-//		        System.out.println(availableFood);
-//		    }
-//		    System.out.println("=========================================================================================================\n");
+		}
+		System.out.println("What kind of food would you prefer?");
+		System.out.println("1. Vegetarian\n2. Non-Vegetarian");
+		while (true) {
+			try {
+				int ch = scanner.nextInt();
+				switch (ch) {
+				case 1:
+					selectedLabel = "Veg";
+					break;
+				case 2:
+					selectedLabel = "Non-Veg";
+					break;
+				default:
+					throw new InvalidChoice();
+				}
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+			break;
 		}
 		LineItemOperations lineItem = new LineItemOperations();
 		int flag = 0;
@@ -61,7 +76,7 @@ public class CustomerDisplay {
 			case "Y": {
 				try {
 					System.out.println("\nRedirecting to food ordering...");
-					lineItems = lineItem.addItem(lineItems, availableMenus, scanner);
+					lineItems = lineItem.addItem(lineItems, availableMenus, scanner, selectedLabel);
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
 				}
@@ -104,8 +119,6 @@ public class CustomerDisplay {
 					}
 					System.out.println(
 							"======================================================================================");
-//				System.out.println(String.format("\n%-12s %-20s %-15s %-12s %-15s %-10s", "LineItemID", "FoodID",
-//						"Item Name", "Item Units", "Item Price", "Total"));
 					System.out.println(String.format("\n%-12s %-10s %-15s %-12s %-12s %-10s", "LineItemID", "FoodID",
 							"Item Name", "Item Units", "Item Price", "Total"));
 
@@ -138,7 +151,7 @@ public class CustomerDisplay {
 					switch (choice2) {
 					case 1: {
 						System.out.println("\nRedirecting to Add Item...");
-						lineItems = lineItem.addItem(lineItems, availableMenus, scanner);
+						lineItems = lineItem.addItem(lineItems, availableMenus, scanner, selectedLabel);
 						break;
 					}
 					case 2: {

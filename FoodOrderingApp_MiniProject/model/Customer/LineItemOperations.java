@@ -6,7 +6,6 @@ import java.util.Scanner;
 import com.aurionpro.model.Admin.FoodObject;
 import com.aurionpro.model.Admin.MenuObject;
 import com.aurionpro.model.Exceptions.FoodNotFound;
-import com.aurionpro.model.Exceptions.InvalidChoice;
 import com.aurionpro.model.Exceptions.MenuNotFound;
 
 public class LineItemOperations {
@@ -19,13 +18,12 @@ public class LineItemOperations {
 		return "LI" + counter;
 	}
 
-	public List<LineItem> addItem(List<LineItem> lineItems, List<MenuObject> availableMenus, Scanner scanner) {
+	public List<LineItem> addItem(List<LineItem> lineItems, List<MenuObject> availableMenus, Scanner scanner, String selectedLabel) {
 		System.out.print("Enter the Menu ID you’d like to order from: ");
 		String menuID = scanner.next();
 		boolean menuFound = false;
 		MenuObject selectedMenu = null;
 		String selectedType = "";
-		String selectedLabel = "";
 
 		for (MenuObject availableMenu : availableMenus) {
 			if (availableMenu.getmenuID().equalsIgnoreCase(menuID)) {
@@ -37,33 +35,11 @@ public class LineItemOperations {
 
 		if (!menuFound) {
 			throw new MenuNotFound(menuID);
-//		    return lineItems;
 		}
 
 		System.out.println("\nMenu Selected: " + selectedMenu.getmenuType());
 		System.out.println("\nDescription   : " + selectedMenu.getDescription());
-		System.out.println("What kind of food would you prefer?");
-		System.out.println("1. Vegetarian\n2. Non-Vegetarian");
 		System.out.println("\nWhat would you like to order?");
-		while (true) {
-			try {
-				int ch = scanner.nextInt();
-				switch (ch) {
-				case 1:
-					selectedLabel = "Veg";
-					break;
-				case 2:
-					selectedLabel = "Non-Veg";
-					break;
-//		        case 3: selectedLabel = "Both"; break;
-				default:
-					throw new InvalidChoice();
-				}
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
-			}
-			break;
-		}
 		System.out.println("1. Starters\n2. Main Course\n3. Dessert");
 
 		while (true) {
@@ -78,8 +54,6 @@ public class LineItemOperations {
 			case 3:
 				selectedType = "Dessert";
 				break;
-//			case 4:
-//				return lineItems;
 			default:
 				System.out.println("Invalid choice. Please try again.");
 				continue;
@@ -157,7 +131,6 @@ public class LineItemOperations {
 		}
 		if (!updated)
 			throw new FoodNotFound(foodID);
-//			System.out.println("\nNo item found with Food ID '" + foodID + "'. Please check and try again.");
 
 		System.out.println("===================================================");
 		return lineItems;
@@ -172,12 +145,6 @@ public class LineItemOperations {
 		String foodID = scanner.next();
 
 		boolean removed = lineItems.removeIf(item -> item.getItemID().equalsIgnoreCase(foodID));
-
-//		if (removed) {
-//			System.out.println("\n Item with Food ID '" + foodID + "' removed successfully from your cart.");
-//		} else {
-//			System.out.println("\nNo item found with Food ID '" + foodID + "'. Please check and try again.");
-//		}
 		if (!removed)
 			throw new FoodNotFound(foodID);
 		System.out.println("\n Item with Food ID '" + foodID + "' removed successfully from your cart.");
